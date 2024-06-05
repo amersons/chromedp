@@ -215,6 +215,9 @@ func (a *ExecAllocator) Allocate(ctx context.Context, opts ...BrowserOption) (*B
 		a.wg.Add(1) // for the io.Copy in a separate goroutine
 	}
 	go func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
 		// First wait for the process to be finished.
 		// TODO: do we care about this error in any scenario? if the
 		// user cancelled the context and killed chrome, this will most
